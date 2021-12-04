@@ -1,0 +1,97 @@
+#include <iostream>
+#include <math.h>
+using namespace std;
+/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+
+struct SINHVIEN{
+	int MSSV;
+	char HoTen[100];
+	float LTC ;
+	float DTCB;
+	float NMKT;
+	float DTB;
+};
+void Nhap1SV(SINHVIEN &s){
+	cout<<"\nNhap vao MSSV: ";
+	cin>>s.MSSV;
+	cin.ignore();
+	cout<<"Nhap ten SV: ";
+	gets(s.HoTen);
+	cout<<"Nhap diem Lap Trinh C: ";
+	cin>>s.LTC;
+	cout<<"Nhap diem Dien Tu Co Ban: ";
+	cin>>s.DTCB;
+	cout<<"Nhap diem Nhap Mon Ky Thuat: ";
+	cin>>s.NMKT;
+	s.DTB = (s.LTC+s.DTCB+s.NMKT)/3;
+	cout<<"+------------------------------+\n";
+}
+void NhapDSSV(SINHVIEN s[], int &n){
+	cout<<"Nhap So Sinh Vien: ";
+	cin >>n;
+	for(int i = 0;i<n;i++){
+		cout<<"Nhap vao sinh vien thu "<< i+1;
+		Nhap1SV(s[i]);
+	}
+	
+}
+
+void Xuat1SV(SINHVIEN s){
+	
+	cout<<"|"<<s.MSSV<<"\t|"<<s.HoTen<<"\t\t| "<<s.LTC<<"\t\t| "<<s.DTCB<<"\t\t| "<<s.NMKT<<"\t\t| "<<roundf(s.DTB*10)/10<<"\t\t|\n";
+}
+void XuatDSSV(SINHVIEN s[], int n){
+	for(int i =0;i<n;i++){
+		Xuat1SV(s[i]);
+	}
+	//system("pause");
+}
+
+int main(){
+	int n;
+	SINHVIEN sv[1000];
+	int option;
+	do{
+		system("cls");
+		cout<<"Moi Ban Lua Chon Chuc Nang\n";
+		cout<<"1. Nhap Danh Sach Sinh Vien\n";
+		cout<<"2. Xuat Danh Sach Sinh Vien Ra Ngoai Man Hinh\n";
+		cout<<"3. Tim Sinh Vien Co Diem Trung Binh Cao Nhat, Thap Nhat\n";
+		cout<<"4. Xep Danh Sach Sinh Vien Theo Ma So Tang Dan\n";
+		cout<<"5. Xep Danh Sach Sinh Vien Theo Ma So Tang Dan\n";
+		cout<<"6. Them/ Xoa Sinh Vien\n";
+		cout<<"==========================================================\n";
+		cout<<"Su Lua Chon Cua Ban La: ";
+		cin >>  option;
+		switch(option){
+			case 1:
+				NhapDSSV(sv,n);
+				break;
+			case 2:
+				cout<<"+---------------+-----------------------+---------------+---------------+---------------+---------------+\n";
+				cout<<"| MSSV\t\t| HO&TEN\t\t| DIEM LTC\t| DIEM DTCB\t| DIEM NMKT\t| DIEM TB\t|\n";
+				cout<<"+---------------+-----------------------+---------------+---------------+---------------+---------------+\n";
+				XuatDSSV(sv,n);
+				cout<<"+---------------+-----------------------+---------------+---------------+---------------+---------------+\n";
+				system("pause");
+				break;
+			case 3:
+				cout<<"Key 3";
+				break;
+			case 4:
+				cout<<"Key 4";
+				break;
+			case 5:
+				cout<<"Key 5";
+				break;
+			case 6:
+				cout<<"Key 6";
+				break;
+			default :
+				cout<<"Nhap Lai! ";
+				break;
+		}
+	}while(option!=0);
+
+return 0;
+}
