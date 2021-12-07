@@ -1,97 +1,188 @@
 #include <iostream>
 #include <math.h>
 using namespace std;
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
-
-struct SINHVIEN{
+//---------------------------------------Khai báo 1 struct Sinh Vien
+struct SINHVIEN {
 	int MSSV;
 	char HoTen[100];
-	float LTC ;
+	float LTC;
 	float DTCB;
 	float NMKT;
 	float DTB;
 };
-void Nhap1SV(SINHVIEN &s){
-	cout<<"\nNhap vao MSSV: ";
-	cin>>s.MSSV;
-	cin.ignore();
-	cout<<"Nhap ten SV: ";
-	gets(s.HoTen);
-	cout<<"Nhap diem Lap Trinh C: ";
-	cin>>s.LTC;
-	cout<<"Nhap diem Dien Tu Co Ban: ";
-	cin>>s.DTCB;
-	cout<<"Nhap diem Nhap Mon Ky Thuat: ";
-	cin>>s.NMKT;
-	s.DTB = (s.LTC+s.DTCB+s.NMKT)/3;
-	cout<<"+------------------------------+\n";
+typedef SINHVIEN sinhvien;
+//---------------------------------------Hàm để tạo ra các đương kẻ cho đẹp
+void design() {
+	cout << "+---------------+-----------------------+---------------+---------------+---------------+---------------+\n";
+	cout << "| MSSV\t\t| HO&TEN\t\t| DIEM LTC\t| DIEM DTCB\t| DIEM NMKT\t| DIEM TB\t|\n";
+	cout << "+---------------+-----------------------+---------------+---------------+---------------+---------------+\n";
 }
-void NhapDSSV(SINHVIEN s[], int &n){
-	cout<<"Nhap So Sinh Vien: ";
-	cin >>n;
-	for(int i = 0;i<n;i++){
-		cout<<"Nhap vao sinh vien thu "<< i+1;
+//---------------------------------------Hàm để nhập 1 Sinh Vien
+void Nhap1SV(SINHVIEN& s) {
+	cout << "\nNhap vao MSSV: ";
+	cin >> s.MSSV;
+	cin.ignore();
+	cout << "Nhap ten SV: ";
+	gets_s(s.HoTen);
+	cout << "Nhap diem Lap Trinh C: ";
+	cin >> s.LTC;
+	cout << "Nhap diem Dien Tu Co Ban: ";
+	cin >> s.DTCB;
+	cout << "Nhap diem Nhap Mon Ky Thuat: ";
+	cin >> s.NMKT;
+	s.DTB = (s.LTC + s.DTCB + s.NMKT) / 3;
+	cout << "+------------------------------+\n";
+}
+//----------------------------------------Hàm để nhập 1 Danh Sách Sinh Viên
+void NhapDSSV(SINHVIEN s[], int& n) {
+	cout << "Nhap So Sinh Vien: ";
+	cin >> n;
+	system("cls");
+	for (int i = 0; i < n; i++) {
+		cout << "Nhap vao sinh vien thu " << i + 1;
 		Nhap1SV(s[i]);
 	}
-	
-}
 
-void Xuat1SV(SINHVIEN s){
-	
-	cout<<"|"<<s.MSSV<<"\t|"<<s.HoTen<<"\t\t| "<<s.LTC<<"\t\t| "<<s.DTCB<<"\t\t| "<<s.NMKT<<"\t\t| "<<roundf(s.DTB*10)/10<<"\t\t|\n";
 }
-void XuatDSSV(SINHVIEN s[], int n){
-	for(int i =0;i<n;i++){
+//--------------------------------------- Hàm để Xuất 1 SV
+void Xuat1SV(SINHVIEN s) {
+
+	cout << "|" << s.MSSV << "\t|" << s.HoTen << "\t\t| " << s.LTC << "\t\t| " << s.DTCB << "\t\t| " << s.NMKT << "\t\t| " << roundf(s.DTB * 10) / 10 << "\t\t|\n";
+}
+//--------------------------------------- Hàm để Xuất 1 DSSV
+void XuatDSSV(SINHVIEN s[], int n) {
+	for (int i = 0; i < n; i++) {
 		Xuat1SV(s[i]);
 	}
-	//system("pause");
+}
+//--------------------------------------- Hàm Tìm SV Có Điểm Cao Nhất
+int DIEM_MAX(SINHVIEN s[], int n) {
+	int so= 0;
+	float max = roundf(s[0].DTB * 10) / 10;
+	for (int i = 1; i < n; i++) {
+		if (roundf(s[i].DTB * 10) / 10 > max) {
+			max = roundf(s[i].DTB * 10) / 10;
+			so = i;
+		}
+	}
+	return so;
+}
+ //-------------------------------------Hàm Tìm SV có điểm thấp nhất
+int DIEM_MIN(SINHVIEN s[], int n) {
+	int a = 0;
+	float min = roundf(s[0].DTB * 10) / 10;
+	for (int i = 1; i < n; i++) {
+		if (roundf(s[i].DTB * 10) / 10 < min) {
+			min = roundf(s[i].DTB * 10) / 10;
+			a = i;
+		}
+	}
+	return a;
+}
+//----------------------------------- Hàm sắp xếp theo điểm
+void Sap_Xep_Theo_DTB(SINHVIEN s[], int n) {
+	SINHVIEN temp;
+	for (size_t i = 0; i < n; i++)
+	{
+		for (size_t j = i+1; j < n; j++)
+		{
+			if (roundf(s[i].DTB * 10) / 10 < roundf(s[j].DTB * 10) / 10) {
+				temp = s[i];
+				s[i] = s[j];
+				s[j] = temp;
+			}
+		}
+	}
+}
+//----------------------------------- Hàm sắp xếp theo MSSV
+void Sap_Xep_Theo_MSSV(SINHVIEN s[], int n) {
+	SINHVIEN temp;
+	for (size_t i = 0; i < n; i++)
+	{
+		for (size_t j = i + 1; j < n; j++)
+		{
+			if (s[i].MSSV >s[j].MSSV) {
+				temp = s[i];
+				s[i] = s[j];
+				s[j] = temp;
+			}
+		}
+	}
+}
+void Them_SV(SINHVIEN s[], int &n, int& vt, SINHVIEN x) {
+	cout << "Nhap vi tri muon them: ";
+	cin >> vt;
+	for (size_t i = n-1; i >=vt; i--)
+	{
+		s[i + 1] = s[i];
+	}
+	s[vt] = x;
 }
 
-int main(){
+int main() {
 	int n;
 	SINHVIEN sv[1000];
+	int vt;
+	SINHVIEN x;
 	int option;
-	do{
+	do {
 		system("cls");
-		cout<<"Moi Ban Lua Chon Chuc Nang\n";
-		cout<<"1. Nhap Danh Sach Sinh Vien\n";
-		cout<<"2. Xuat Danh Sach Sinh Vien Ra Ngoai Man Hinh\n";
-		cout<<"3. Tim Sinh Vien Co Diem Trung Binh Cao Nhat, Thap Nhat\n";
-		cout<<"4. Xep Danh Sach Sinh Vien Theo Ma So Tang Dan\n";
-		cout<<"5. Xep Danh Sach Sinh Vien Theo Ma So Tang Dan\n";
-		cout<<"6. Them/ Xoa Sinh Vien\n";
-		cout<<"==========================================================\n";
-		cout<<"Su Lua Chon Cua Ban La: ";
-		cin >>  option;
-		switch(option){
-			case 1:
-				NhapDSSV(sv,n);
-				break;
-			case 2:
-				cout<<"+---------------+-----------------------+---------------+---------------+---------------+---------------+\n";
-				cout<<"| MSSV\t\t| HO&TEN\t\t| DIEM LTC\t| DIEM DTCB\t| DIEM NMKT\t| DIEM TB\t|\n";
-				cout<<"+---------------+-----------------------+---------------+---------------+---------------+---------------+\n";
-				XuatDSSV(sv,n);
-				cout<<"+---------------+-----------------------+---------------+---------------+---------------+---------------+\n";
-				system("pause");
-				break;
-			case 3:
-				cout<<"Key 3";
-				break;
-			case 4:
-				cout<<"Key 4";
-				break;
-			case 5:
-				cout<<"Key 5";
-				break;
-			case 6:
-				cout<<"Key 6";
-				break;
-			default :
-				cout<<"Nhap Lai! ";
-				break;
+		cout << "Moi Ban Lua Chon Chuc Nang\n";
+		cout << "1. Nhap Danh Sach Sinh Vien\n";
+		cout << "2. Xuat Danh Sach Sinh Vien Ra Ngoai Man Hinh\n";
+		cout << "3. Tim Sinh Vien Co Diem Trung Binh Cao Nhat, Thap Nhat\n";
+		cout << "4. Xep Danh Sach Sinh Vien Theo Ma So Tang Dan\n";
+		cout << "5. Xep Danh Sach Sinh Vien Theo DTB Giam Dan\n";
+		cout << "6. Them Sinh Vien\n";
+		cout << "7. Xoa Sinh Vien\n";
+		cout << "==========================================================\n";
+		cout << "Su Lua Chon Cua Ban La: ";
+		cin >> option;
+		switch (option) {
+		case 1:
+			NhapDSSV(sv, n);
+			break;
+		case 2:
+			design();
+			XuatDSSV(sv, n);
+			cout << "+---------------+-----------------------+---------------+---------------+---------------+---------------+\n";
+			system("pause");
+			break;
+		case 3:
+			cout << "Sinh Vien Co Diem Trung Binh Cao Nhat: \n";
+			design();
+			Xuat1SV(sv[DIEM_MAX(sv, n)]);
+			cout << "+---------------+-----------------------+---------------+---------------+---------------+---------------+\n";
+			cout << "sinh vien co diem trung binh thap nhat: \n";
+			design();
+			Xuat1SV(sv[DIEM_MIN(sv, n)]);
+			cout << "+---------------+-----------------------+---------------+---------------+---------------+---------------+\n";
+			system("pause");
+			break;
+		case 4:
+			design();
+			Sap_Xep_Theo_MSSV(sv, n);
+			XuatDSSV(sv, n);
+			cout << "+---------------+-----------------------+---------------+---------------+---------------+---------------+\n";
+			system("pause");
+			break;
+		case 5:
+			design();
+			Sap_Xep_Theo_DTB(sv,n);
+			XuatDSSV(sv, n);
+			cout << "+---------------+-----------------------+---------------+---------------+---------------+---------------+\n";
+			system("pause");
+			break;
+		case 6:
+			Nhap1SV(x);
+			Them_SV(sv, n, vt, x);
+			system("pause");
+			break;
+		default:
+			cout << "Nhap Lai! ";
+			break;
 		}
-	}while(option!=0);
+	} while (option != 0);
 
-return 0;
+	return 0;
 }
